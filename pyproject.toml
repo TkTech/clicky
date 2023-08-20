@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "clicky"
+version = "0.1.0"
+description = "Turn CLI applications into Slack & Discord bots."
+authors = ["Tyler Kennedy <tk@tkte.ch>"]
+readme = "README.md"
+packages = [
+    { include = "clicky" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.click.dependencies]
+click = "^8.1.7"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.7.0"
+
+[tool.poetry.group.slack.dependencies]
+slack-bolt = "^1.18.0"
+
+[tool.poetry.group.discord.dependencies]
+discord-py = "^2.3.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 80

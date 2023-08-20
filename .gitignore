@@ -1,0 +1,22 @@
+# Python cruft
+*.pyc
+*.pyd
+venv
+.eggs
+cython_debug/*
+build/
+_build/
+.benchmarks/
+*.egg-info
+
+# Extension building cruft
+*.so
+
+# coverage.py default output file
+.coverage
+
+# IDE cruft
+.idea
+
+# Poetry cruft
+poetry.lock
