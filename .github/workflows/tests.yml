@@ -26,5 +26,4 @@ jobs:
 
       - name: Building documentation
         run: |
-          poetry shell
-          cd docs && make clean html
+          cd docs && poetry run sphinx-build -b html source build
