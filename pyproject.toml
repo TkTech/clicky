@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "clicky"
-version = "0.1.2"
+version = "0.1.3"
 description = "Turn CLI applications into Slack & Discord bots."
 authors = ["Tyler Kennedy <tk@tkte.ch>"]
 readme = "README.md"

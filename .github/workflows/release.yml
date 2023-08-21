@@ -40,4 +40,4 @@ jobs:
 
     - name: Publishing documentation
       run: |
-        poetry run ghp-import -f -n -p docs/build/html
+        poetry run ghp-import -f -n -p docs/build
