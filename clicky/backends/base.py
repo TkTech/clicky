@@ -28,6 +28,12 @@ class Backend(abc.ABC):
     def on_command(
         self, command: str, identifiers: list[Identity], context: MessageContext
     ):
+        """
+        Called when there's a command to run.
+
+        Performs a permission check before forwarding the command to the
+        frontend (such as click) that is responsible for actually running it.
+        """
         if not self.is_allowed(command, identifiers):
             context.reply(
                 ReplyType.ERROR,
@@ -37,8 +43,14 @@ class Backend(abc.ABC):
 
         self.app.on_command(command, identifiers, context)
 
-    def is_allowed(self, command: str, identifiers: list[Identity]):
-        print(identifiers)
+    def is_allowed(self, command: str, identifiers: list[Identity]) -> bool:
+        """
+        Given a command and a list of 0 or more :class:`clicky.types.Identity`
+        objects, check to see if at least 1 of the passed identities is allowed
+        to run this command.
+
+        :returns: True if the command is allowed, otherwise False.
+        """
         whitelist: list[WhitelistConfig] = self.app.config.get("whitelist", [])
         for entry in whitelist:
             if entry["on"] != self.name:

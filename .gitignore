@@ -20,3 +20,6 @@ _build/
 
 # Poetry cruft
 poetry.lock
+
+# Docs
+docs/build

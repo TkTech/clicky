@@ -71,7 +71,46 @@ def become_clicky(
     config: Configuration | typing.Callable[[], Configuration],
 ):
     """
-    Wraps a Click-based CLI application, providing a bot interface.
+    Wraps a Click-based CLI application, creating a "clicky" command which
+    can be used to start a slack bot that exposes the CLI.
+
+    .. code-block:: python
+        :linenos:
+        :emphasize-lines: 4
+        :caption: Example
+
+          import click
+          from clicky.frontends.click import become_clicky
+
+          @become_clicky(
+              config={
+                  "servers": {
+                      "my_slack_server": {
+                          "bot": "slack",
+                          "prefix": "!hello",
+                          "tokens": {
+                              "app": "<app_token>",
+                              "bot": "<bot_token>"
+                          }
+                      }
+                  },
+                  "whitelist": [
+                      {
+                        "on": "my_slack_server",
+                        "type": "user",
+                        "id": "TkTech",
+                        "commands": [".*"]
+                      }
+                  ]
+              }
+          )
+          @click.command()
+          def cli():
+              click.echo('Hello, world!')
+
+          if __name__ == '__main__':
+              cli()
+
     """
 
     def decorator(app: click.Group | click.Command):
