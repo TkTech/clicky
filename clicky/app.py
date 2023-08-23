@@ -1,5 +1,3 @@
-import multiprocessing
-import multiprocessing.connection
 from typing import Callable
 
 from clicky import Configuration
@@ -21,27 +19,45 @@ class Clicky:
         self.config = config
         self.on_command_handler = on_command
 
-    def run(self):
-        pool = []
+    def run(self, backend: str | None = None):
+        # If there are no backends configured, we just don't want to do
+        # anything. This is to support say, loading config from a django
+        # model and maybe getting no rows without having to do anything
+        # special.
+        backends = self.config.get("backends", {})
+        if not backends:
+            return
 
-        for name, server in self.config["servers"].items():
-            match server["bot"]:
-                case "slack":
-                    from clicky.backends.slack import SlackBackend
+        if len(backends) > 1 and backend is None:
+            # There's ambiguity as to which backend to start.
+            raise RuntimeError(
+                "There is more than 1 configured backend, but which backend"
+                " to start was not specified."
+            )
+        elif len(backends) == 1:
+            backend_config = list(backends.values())[0]
+        else:
+            try:
+                backend_config = backends[backend]
+            except KeyError:
+                raise RuntimeError(
+                    f"No configured backend exists with the name {backend!r},"
+                    f" choices are: {list(backends.keys())}."
+                )
 
-                    pool.append(
-                        multiprocessing.Process(
-                            target=SlackBackend(
-                                self,
-                                name,
-                                server,
-                            ).run()
-                        )
-                    )
-                case _:
-                    raise ValueError(f"Unknown bot type: {server['bot']}")
+        match backend_config["backend"]:
+            case "slack":
+                from clicky.backends.slack import SlackBackend
 
-        multiprocessing.connection.wait(p.sentinel for p in pool)
+                SlackBackend(
+                    self,
+                    backend,
+                    backend_config,
+                ).run()
+            case _:
+                raise ValueError(
+                    f"Unknown backend type: {backend_config['backend']}"
+                )
 
     def on_command(
         self, command: str, identifiers: list[Identity], context: MessageContext

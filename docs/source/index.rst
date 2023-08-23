@@ -10,6 +10,7 @@ Clicky
    context
    frontends/index
    backends/index
+   types
 
 
 Clicky is a straightforward Python tool for taking CLIs written using `click`_
@@ -45,13 +46,13 @@ into an existing CLI application.
 
   @become_clicky(
       config={
-          "servers": {
+          "backends": {
               "my_slack_server": {
-                  "bot": "slack",
+                  "backend": "slack",
                   "prefix": "!hello",
-                  "tokens": {
-                      "app": "<app_token>",
-                      "bot": "<bot_token>"
+                  "settings": {
+                      "app_token": "<app_token>",
+                      "bot_token": "<bot_token>"
                   }
               }
           },
@@ -60,7 +61,7 @@ into an existing CLI application.
                   "on": "my_slack_server",
                   "type": "user",
                   "id": "U012BTV7D5F",
-                  "commands": [".*"]
+                  "allow": [".*"]
               }
           ]
       }

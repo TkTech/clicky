@@ -4,18 +4,19 @@ import shlex
 
 from clicky.app import Clicky
 from clicky.context import MessageContext
-from clicky.types import Identity, ReplyType, ServerConfig, WhitelistConfig
+from clicky.types import Identity, ReplyType, BackendConfig, WhitelistConfig
 
 
 class Backend(abc.ABC):
     """
-    A backend is a way to run the bot. It can be a Discord bot, a Slack bot,
-    whatever.
+    A :class:`Backend` implements the 3rd-party side of Clicky. These can be
+    bots for Slack or Discord, or local options like a GUI wizard or CLI
+    wizard like Torgon.
     """
 
-    def __init__(self, app: Clicky, name: str, server: ServerConfig):
+    def __init__(self, app: Clicky, name: str, backend: BackendConfig):
         self.app = app
-        self.server = server
+        self.backend = backend
         self.name = name
 
     @abc.abstractmethod
@@ -63,8 +64,20 @@ class Backend(abc.ABC):
                 if entry["id"] != identifier.id:
                     continue
 
-                for allowed_command in entry["commands"]:
-                    if re.match(allowed_command, command):
+                for allowed_command in entry["allow"]:
+                    if not re.match(allowed_command, command):
+                        continue
+
+                    # Found a possible match, now lets make sure there's
+                    # no explicit rule denying it.
+                    for deny in entry.get("deny", []):
+                        if re.match(deny, command):
+                            # Explicitly denied, but a further identifier
+                            # may allow it so just break out of the loop.
+                            break
+                    else:
+                        # If we made it here, either there were no denies or
+                        # no deny matched.
                         return True
 
         return False

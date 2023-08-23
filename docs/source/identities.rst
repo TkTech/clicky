@@ -24,7 +24,7 @@ add a row to the ``whitelist`` in the configuration that looks like this:
             "on": "my_slack_server",
             "type": "user",
             "id": "U012BTV7D5F",
-            "commands": ["^danger\s?.*"]
+            "allow": ["^danger\s?.*"]
         }
     ]
 
@@ -41,7 +41,7 @@ If instead we have a private channel that only admins are in, we could do:
             "on": "my_slack_server",
             "type": "channel",
             "id": "C293434",
-            "commands": ["^danger\s?.*"]
+            "allow": ["^danger\s?.*"]
         }
     ]
 
@@ -61,7 +61,7 @@ command the current best way to do that is to use a wildcard per-channel:
             "on": "my_slack_server",
             "type": "channel",
             "id": "C293434",
-            "commands": [".*"]
+            "allow": [".*"]
         }
     ]
 

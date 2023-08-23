@@ -76,17 +76,19 @@ class SlackMessageContext(MessageContext):
 
 class SlackBackend(Backend):
     def run(self):
-        slack_app = App(token=self.server["tokens"]["bot"])
-        slack_app.message(self.server["prefix"])(self.on_message)
-        handler = SocketModeHandler(slack_app, self.server["tokens"]["app"])
+        slack_app = App(token=self.backend["settings"]["bot_token"])
+        slack_app.message(self.backend["prefix"])(self.on_message)
+        handler = SocketModeHandler(
+            slack_app, self.backend["settings"]["app_token"]
+        )
         handler.start()
 
     def on_message(self, message, say):
-        if not message["text"].startswith(self.server["prefix"]):
+        if not message["text"].startswith(self.backend["prefix"]):
             return
 
         self.on_command(
-            message["text"][len(self.server["prefix"]) :].strip(),
+            message["text"][len(self.backend["prefix"]) :].strip(),
             [
                 Identity("user", message["user"]),
                 Identity("channel", message["channel"]),
