@@ -11,6 +11,7 @@ external service, and for receiving commands from users. For example, the
    :caption: Contents:
 
    slack
+   discord
    base
 
 

@@ -1,15 +1,23 @@
 # Clicky
 
-Clicky is a straightforward Python tool for taking CLIs written using [click][]
-and exposing them as bots on platforms such as Slack.
+Clicky is a simple Python tool for taking CLIs written using [click][]
+and exposing them as bots on platforms such as Slack and Discord.
 
 ## Installation
 
-Clicky is available on PyPI and can be installed with pip:
+Clicky is available on PyPI and can be installed with pip. For Click & Slack,
+use: 
 
 ```bash
 pip install "clicky[click,slack]"
 ```
+
+and for Discord use:
+
+```bash
+pip install "clicky[click,discord]"
+```
+
 
 ## Usage & Docs
 

@@ -13,8 +13,10 @@ Clicky
    types
 
 
-Clicky is a straightforward Python tool for taking CLIs written using `click`_
-and exposing them as bots on Slack.
+Clicky is a simple Python tool for taking CLIs written using `click`_
+and exposing them through :doc:`Backends </backends/index>`, which can be bots
+on services like :class:`Slack <clicky.backends.slack.SlackBackend>` and
+:class:`Discord <clicky.backends.discord.DiscordBackend>`.
 
 Clicky is inspired-by and borrows some code from `Trogon`_.
 
@@ -105,6 +107,12 @@ Clicky will add itself as a subcommand to the CLI, so you can run it like this:
 .. code::
 
   $ python my_cli.py clicky
+
+If you added more than one backend, specify which one to start:
+
+.. code::
+
+  $ python my_cli.py clicky my_slack_server
 
 Limitations
 -----------

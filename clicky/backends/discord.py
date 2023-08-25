@@ -1,5 +1,4 @@
 from io import BytesIO
-from typing import Callable, Awaitable
 
 import discord
 from discord import Message
