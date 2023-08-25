@@ -1,9 +1,9 @@
 import re
 import abc
-import shlex
 
 from clicky.app import Clicky
 from clicky.context import MessageContext
+from clicky.logger import logger
 from clicky.types import Identity, ReplyType, BackendConfig, WhitelistConfig
 
 
@@ -11,7 +11,7 @@ class Backend(abc.ABC):
     """
     A :class:`Backend` implements the 3rd-party side of Clicky. These can be
     bots for Slack or Discord, or local options like a GUI wizard or CLI
-    wizard like Torgon.
+    wizard like Trogon.
     """
 
     def __init__(self, app: Clicky, name: str, backend: BackendConfig):
@@ -20,13 +20,13 @@ class Backend(abc.ABC):
         self.name = name
 
     @abc.abstractmethod
-    def run(self):
+    async def run(self):
         """
         Take over the process and start the bot. This will be called only
         after forking the process, so you can do whatever you want here.
         """
 
-    def on_command(
+    async def on_command(
         self, command: str, identifiers: list[Identity], context: MessageContext
     ):
         """
@@ -35,14 +35,20 @@ class Backend(abc.ABC):
         Performs a permission check before forwarding the command to the
         frontend (such as click) that is responsible for actually running it.
         """
+        logger.info(
+            f"[{self.name}] Received command {command!r} with identifiers"
+            f" {identifiers!r}"
+        )
+
         if not self.is_allowed(command, identifiers):
-            context.reply(
+            logger.info(f"[{self.name}] Reject command {command!r}")
+            await context.reply(
                 ReplyType.ERROR,
                 "You are not allowed to run this command.",
             )
             return
 
-        self.app.on_command(command, identifiers, context)
+        await self.app.on_command(command, identifiers, context)
 
     def is_allowed(self, command: str, identifiers: list[Identity]) -> bool:
         """

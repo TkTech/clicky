@@ -1,7 +1,7 @@
 import time
 
-from slack_bolt import App
-from slack_bolt.adapter.socket_mode import SocketModeHandler
+from slack_bolt.async_app import AsyncApp
+from slack_bolt.adapter.socket_mode.async_handler import AsyncSocketModeHandler
 
 from clicky.backends.base import Backend
 from clicky.context import MessageContext
@@ -14,27 +14,29 @@ class SlackMessageContext(MessageContext):
         self.message_id = None
         self.start_time = None
 
-    def pre_run(self):
+    async def pre_run(self):
         self.start_time = time.time()
-        self.message_id = self.say(
-            blocks=[
-                {
-                    "type": "section",
-                    "text": {
-                        "type": "mrkdwn",
-                        "text": "Running command...",
-                    },
-                }
-            ],
-            text="Running command...",
+        self.message_id = (
+            await self.say(
+                blocks=[
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": "Running command...",
+                        },
+                    }
+                ],
+                text="Running command...",
+            )
         )["ts"]
 
-    def reply(self, reply_type: ReplyType, message: str):
+    async def reply(self, reply_type: ReplyType, message: str):
         match reply_type:
             case ReplyType.MESSAGE:
-                self.say(message)
+                await self.say(message)
             case ReplyType.ERROR:
-                self.say(
+                await self.say(
                     blocks=[
                         {
                             "type": "section",
@@ -47,7 +49,7 @@ class SlackMessageContext(MessageContext):
                     text=message,
                 )
             case ReplyType.ATTACHMENT:
-                self.say.client.files_upload_v2(
+                await self.say.client.files_upload_v2(
                     channel=self.say.channel,
                     content=message,
                     title="Result of command run.",
@@ -55,10 +57,8 @@ class SlackMessageContext(MessageContext):
             case _:
                 raise ValueError(f"Unknown reply type: {reply_type}")
 
-    def post_run(self):
-        duration = time.time() - self.start_time
-
-        self.say.client.chat_update(
+    async def post_run(self, *, duration=None):
+        await self.say.client.chat_update(
             channel=self.say.channel,
             ts=self.message_id,
             blocks=[
@@ -75,19 +75,19 @@ class SlackMessageContext(MessageContext):
 
 
 class SlackBackend(Backend):
-    def run(self):
-        slack_app = App(token=self.backend["settings"]["bot_token"])
+    async def run(self):
+        slack_app = AsyncApp(token=self.backend["settings"]["bot_token"])
         slack_app.message(self.backend["prefix"])(self.on_message)
-        handler = SocketModeHandler(
+        handler = AsyncSocketModeHandler(
             slack_app, self.backend["settings"]["app_token"]
         )
-        handler.start()
+        await handler.start_async()
 
-    def on_message(self, message, say):
+    async def on_message(self, message, say):
         if not message["text"].startswith(self.backend["prefix"]):
             return
 
-        self.on_command(
+        await self.on_command(
             message["text"][len(self.backend["prefix"]) :].strip(),
             [
                 Identity("user", message["user"]),

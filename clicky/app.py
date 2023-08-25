@@ -1,4 +1,6 @@
-from typing import Callable
+import logging
+
+from typing import Callable, Awaitable
 
 from clicky import Configuration
 from clicky.context import MessageContext
@@ -12,14 +14,14 @@ class Clicky:
         config: Configuration,
         on_command: Callable[
             [Configuration, str, list[Identity], MessageContext],
-            None,
+            Awaitable[None],
         ],
     ):
         self.command_name = command_name
         self.config = config
         self.on_command_handler = on_command
 
-    def run(self, backend: str | None = None):
+    async def run(self, backend: str | None = None):
         # If there are no backends configured, we just don't want to do
         # anything. This is to support say, loading config from a django
         # model and maybe getting no rows without having to do anything
@@ -49,21 +51,28 @@ class Clicky:
             case "slack":
                 from clicky.backends.slack import SlackBackend
 
-                SlackBackend(
-                    self,
-                    backend,
-                    backend_config,
-                ).run()
+                backend = SlackBackend(self, backend, backend_config)
+                await backend.run()
+            case "discord":
+                from clicky.backends.discord import DiscordBackend
+
+                backend = DiscordBackend(self, backend, backend_config)
+                await backend.run()
             case _:
                 raise ValueError(
                     f"Unknown backend type: {backend_config['backend']}"
                 )
 
-    def on_command(
+    async def on_command(
         self, command: str, identifiers: list[Identity], context: MessageContext
     ):
         """
         Called when a command is received from a backend that should be
         forwarded to the frontend for execution.
         """
-        self.on_command_handler(self.config, command, identifiers, context)
+        await self.on_command_handler(
+            self.config, command, identifiers, context
+        )
+
+    def setup_logging(self):
+        logging.basicConfig(level=logging.INFO)

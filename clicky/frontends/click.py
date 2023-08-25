@@ -1,3 +1,5 @@
+import time
+import asyncio
 import typing
 import shlex
 import subprocess
@@ -16,52 +18,55 @@ Clicky turns your Click-based CLI application into a bot.
 """
 
 
-def on_command(
+async def on_command(
     config: Configuration,
     command: str,
     identifiers: list[Identity],
     context: MessageContext,
     clicky_command: str,
 ):
-    # Our first hacky attempt at making this work. We simply fork out to a
-    # subprocess to run the command the user is trying to use. This is
-    # obviously not ideal, but it's a start. We'll need to do a lot more work
-    # to make this work without blocking other commands.
-    context.pre_run()
+    start = time.time()
+    await context.pre_run()
 
     # Using clicky to start clicky would not be great.
     args = shlex.split(command)
     if args and args[0].lower() == clicky_command.lower():
-        context.reply(ReplyType.ERROR, "Ignoring recursive clicky command.")
+        await context.reply(
+            ReplyType.ERROR, "Ignoring recursive clicky command."
+        )
         return
 
     run_string = detect_run_string()
     app_string = shlex.split(run_string)
 
-    try:
-        # shell=True _must not_ be used here, as it may be used via a shell
-        # escape to run arbitrary commands.
-        result = subprocess.run(
-            [*app_string, *args],
-            capture_output=True,
-            timeout=config.get("maximum_command_timeout", 5 * 60),
-        )
-    except subprocess.TimeoutExpired:
-        context.reply(ReplyType.ERROR, "Command timed out.")
+    process = await asyncio.create_subprocess_exec(
+        *app_string,
+        *args,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+
+    communicate = asyncio.ensure_future(process.communicate())
+    done, pending = await asyncio.wait_for(
+        communicate, timeout=config.get("maximum_command_timeout", 60 * 5)
+    )
+
+    if pending and process.returncode is None:
+        # If we got here, the process hasn't completed but the wait_for has
+        # timed out.
+        try:
+            process.kill()
+        except ProcessLookupError:
+            # Task died before we could kill it.
+            pass
+
+        await context.reply(ReplyType.ERROR, "Command timed out.")
+        # Should we be calling a post_run cleanup here?
         return
 
-    stdout = result.stdout.decode("utf-8")
-    stderr = result.stderr.decode("utf-8")
-
-    if not len(stdout) and not len(stderr):
-        context.reply(ReplyType.ERROR, "Command completed, but had no output.")
-    else:
-        if stdout:
-            context.reply(ReplyType.ATTACHMENT, stdout)
-        if stderr:
-            context.reply(ReplyType.ATTACHMENT, stderr)
-
-    context.post_run()
+    output, err = await communicate
+    await context.reply(ReplyType.ATTACHMENT, output.decode("utf-8"))
+    await context.post_run(duration=time.time() - start)
 
 
 def become_clicky(
@@ -115,20 +120,26 @@ def become_clicky(
 
     def decorator(app: click.Group | click.Command):
         @click.pass_context
-        def wrapped_clicky(ctx: click.Context, *args, **kwargs):
-            Clicky(
+        def wrapped_clicky(ctx: click.Context, backend=None, *args, **kwargs):
+            import asyncio
+
+            clicky = Clicky(
                 command_name=command,
                 config=config() if callable(config) else config,
                 # PyCharm's type-checker gets confused by partial()
                 on_command=partial(on_command, clicky_command=command),  # noqa
-            ).run()
+            )
+            clicky.setup_logging()
+            asyncio.run(clicky.run(backend=backend))
 
         if isinstance(app, click.Group):
-            app.command(name=command, help=help)(wrapped_clicky)
+            func = app.command(name=command, help=help)(wrapped_clicky)
+            click.argument("backend", required=False)(func)
         else:
             new_group = click.Group()
             new_group.add_command(app)
-            new_group.command(name=command, help=help)(wrapped_clicky)
+            func = new_group.command(name=command, help=help)(wrapped_clicky)
+            click.argument("backend", required=False)(func)
             return new_group
 
         return app
