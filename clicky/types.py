@@ -3,7 +3,7 @@ import enum
 from dataclasses import dataclass
 
 if sys.version_info < (3, 11):
-    from typing_extensions import TypedDict, NotRequired
+    from typing_extensions import Literal, TypedDict, NotRequired
 else:
     from typing import Literal, TypedDict, NotRequired
 
