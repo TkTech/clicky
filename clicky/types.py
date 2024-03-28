@@ -1,6 +1,11 @@
+import sys
 import enum
 from dataclasses import dataclass
-from typing import Literal, TypedDict, NotRequired
+
+if sys.version_info < (3, 11):
+    from typing_extensions import TypedDict, NotRequired
+else:
+    from typing import Literal, TypedDict, NotRequired
 
 
 class BackendConfig(TypedDict):
