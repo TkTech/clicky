@@ -1,0 +1,458 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="Base" href="backends/base.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>Types - Clicky</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Clicky</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">Clicky</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="identities.html">Identities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="context.html">Message Context</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="frontends/index.html">Frontends</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Frontends</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="frontends/click.html">Click</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="backends/index.html">Backends</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Backends</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="backends/slack.html">Slack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backends/discord.html">Discord</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backends/base.html">Base</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Types</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="types">
+<h1>Types<a class="headerlink" href="#types" title="Link to this heading">#</a></h1>
+<p>Various types and constants used throughout Clicky.</p>
+<section id="misc">
+<h2>Misc.<a class="headerlink" href="#misc" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="clicky.types.ReplyType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">clicky.types.</span></span><span class="sig-name descname"><span class="pre">ReplyType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clicky.types.ReplyType" title="Link to this definition">#</a></dt>
+<dd><p>The type of reply to send back to the user.</p>
+<p>Backends are free to choose how to handle (or ignore) these reply types.
+Errors can be treated as normal messages, or they may have unique styling,
+for example.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clicky.types.ReplyType.ATTACHMENT">
+<span class="sig-name descname"><span class="pre">ATTACHMENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#clicky.types.ReplyType.ATTACHMENT" title="Link to this definition">#</a></dt>
+<dd><p>Used for long messages like command output that should be sent as
+an attachment (if necessary). For example slack has a limit of ~3000
+characters per message, so we cannot use it for long-form output.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clicky.types.ReplyType.ERROR">
+<span class="sig-name descname"><span class="pre">ERROR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#clicky.types.ReplyType.ERROR" title="Link to this definition">#</a></dt>
+<dd><p>A short message displayed when an error occurred.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clicky.types.ReplyType.MESSAGE">
+<span class="sig-name descname"><span class="pre">MESSAGE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#clicky.types.ReplyType.MESSAGE" title="Link to this definition">#</a></dt>
+<dd><p>Short messages displayed directly in a channel.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="clicky.types.Identity">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">clicky.types.</span></span><span class="sig-name descname"><span class="pre">Identity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clicky.types.Identity" title="Link to this definition">#</a></dt>
+<dd><p>A simple {type, id} pair that represents an identity associated with
+a message.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clicky.types.Identity.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#clicky.types.Identity.id" title="Link to this definition">#</a></dt>
+<dd><p>A unique ID for this identifier, such as a user or channel ID.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clicky.types.Identity.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#clicky.types.Identity.type" title="Link to this definition">#</a></dt>
+<dd><p>The type of identity, such as a “channel” or “user”.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="configuration-types">
+<h2>Configuration Types<a class="headerlink" href="#configuration-types" title="Link to this heading">#</a></h2>
+<p>Types that are used to validate the configuration dictionary in IDEs.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="clicky.types.Configuration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">clicky.types.</span></span><span class="sig-name descname"><span class="pre">Configuration</span></span><a class="headerlink" href="#clicky.types.Configuration" title="Link to this definition">#</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="clicky.types.Configuration.backends">
+<span class="sig-name descname"><span class="pre">backends</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NotRequired</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#clicky.types.BackendConfig" title="clicky.types.BackendConfig"><span class="pre">BackendConfig</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#clicky.types.Configuration.backends" title="Link to this definition">#</a></dt>
+<dd><p>An optional mapping of backends to configure.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clicky.types.Configuration.maximum_command_timeout">
+<span class="sig-name descname"><span class="pre">maximum_command_timeout</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NotRequired</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#clicky.types.Configuration.maximum_command_timeout" title="Link to this definition">#</a></dt>
+<dd><p>Maximum time in seconds for a command to run before it’s terminated.
+Defaults to 5 minutes.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clicky.types.Configuration.whitelist">
+<span class="sig-name descname"><span class="pre">whitelist</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NotRequired</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#clicky.types.WhitelistConfig" title="clicky.types.WhitelistConfig"><span class="pre">WhitelistConfig</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#clicky.types.Configuration.whitelist" title="Link to this definition">#</a></dt>
+<dd><p>An optional whitelist to allow specific Identities to use commands
+based off of simple regex matching.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="clicky.types.WhitelistConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">clicky.types.</span></span><span class="sig-name descname"><span class="pre">WhitelistConfig</span></span><a class="headerlink" href="#clicky.types.WhitelistConfig" title="Link to this definition">#</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="clicky.types.WhitelistConfig.allow">
+<span class="sig-name descname"><span class="pre">allow</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#clicky.types.WhitelistConfig.allow" title="Link to this definition">#</a></dt>
+<dd><p>A list of regexes that commands must match to be allowed to run.
+These are checked _before_ denies. To allow all commands, simply use
+<code class="docutils literal notranslate"><span class="pre">.*</span></code> as your regex.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clicky.types.WhitelistConfig.deny">
+<span class="sig-name descname"><span class="pre">deny</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NotRequired</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#clicky.types.WhitelistConfig.deny" title="Link to this definition">#</a></dt>
+<dd><p>An optional list of regexes that commands must _not_ match to be
+allowed to run. These are only checked it the command matched an
+<code class="docutils literal notranslate"><span class="pre">allow</span></code> rule first. Use this to selectively deny flags (such as
+<code class="docutils literal notranslate"><span class="pre">--force</span></code>) or subcommands (such as <code class="docutils literal notranslate"><span class="pre">database</span> <span class="pre">deleteeverything</span></code>)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clicky.types.WhitelistConfig.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#clicky.types.WhitelistConfig.id" title="Link to this definition">#</a></dt>
+<dd><p>The unique ID for the given type of identifier.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clicky.types.WhitelistConfig.on">
+<span class="sig-name descname"><span class="pre">on</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#clicky.types.WhitelistConfig.on" title="Link to this definition">#</a></dt>
+<dd><p>The name of the backend instance this rule should apply to.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clicky.types.WhitelistConfig.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#clicky.types.WhitelistConfig.type" title="Link to this definition">#</a></dt>
+<dd><p>The type of identifier that this rule should apply to, such as a
+“channel” or “user”.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="clicky.types.BackendConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">clicky.types.</span></span><span class="sig-name descname"><span class="pre">BackendConfig</span></span><a class="headerlink" href="#clicky.types.BackendConfig" title="Link to this definition">#</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="clicky.types.BackendConfig.backend">
+<span class="sig-name descname"><span class="pre">backend</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'slack'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'discord'</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#clicky.types.BackendConfig.backend" title="Link to this definition">#</a></dt>
+<dd><p>The type of backend that should be started.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clicky.types.BackendConfig.prefix">
+<span class="sig-name descname"><span class="pre">prefix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#clicky.types.BackendConfig.prefix" title="Link to this definition">#</a></dt>
+<dd><p>A command prefix the backend should listen for, such as !clicky or
+&#64;clicky.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clicky.types.BackendConfig.settings">
+<span class="sig-name descname"><span class="pre">settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NotRequired</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#clicky.types.BackendConfig.settings" title="Link to this definition">#</a></dt>
+<dd><p>Backend-specific settings. See the documentation for the selected
+backend to see the options here.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          <a class="prev-page" href="backends/base.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Base</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2023, Tyler Kennedy
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Types</a><ul>
+<li><a class="reference internal" href="#misc">Misc.</a><ul>
+<li><a class="reference internal" href="#clicky.types.ReplyType"><code class="docutils literal notranslate"><span class="pre">ReplyType</span></code></a><ul>
+<li><a class="reference internal" href="#clicky.types.ReplyType.ATTACHMENT"><code class="docutils literal notranslate"><span class="pre">ReplyType.ATTACHMENT</span></code></a></li>
+<li><a class="reference internal" href="#clicky.types.ReplyType.ERROR"><code class="docutils literal notranslate"><span class="pre">ReplyType.ERROR</span></code></a></li>
+<li><a class="reference internal" href="#clicky.types.ReplyType.MESSAGE"><code class="docutils literal notranslate"><span class="pre">ReplyType.MESSAGE</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#clicky.types.Identity"><code class="docutils literal notranslate"><span class="pre">Identity</span></code></a><ul>
+<li><a class="reference internal" href="#clicky.types.Identity.id"><code class="docutils literal notranslate"><span class="pre">Identity.id</span></code></a></li>
+<li><a class="reference internal" href="#clicky.types.Identity.type"><code class="docutils literal notranslate"><span class="pre">Identity.type</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#configuration-types">Configuration Types</a><ul>
+<li><a class="reference internal" href="#clicky.types.Configuration"><code class="docutils literal notranslate"><span class="pre">Configuration</span></code></a><ul>
+<li><a class="reference internal" href="#clicky.types.Configuration.backends"><code class="docutils literal notranslate"><span class="pre">Configuration.backends</span></code></a></li>
+<li><a class="reference internal" href="#clicky.types.Configuration.maximum_command_timeout"><code class="docutils literal notranslate"><span class="pre">Configuration.maximum_command_timeout</span></code></a></li>
+<li><a class="reference internal" href="#clicky.types.Configuration.whitelist"><code class="docutils literal notranslate"><span class="pre">Configuration.whitelist</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#clicky.types.WhitelistConfig"><code class="docutils literal notranslate"><span class="pre">WhitelistConfig</span></code></a><ul>
+<li><a class="reference internal" href="#clicky.types.WhitelistConfig.allow"><code class="docutils literal notranslate"><span class="pre">WhitelistConfig.allow</span></code></a></li>
+<li><a class="reference internal" href="#clicky.types.WhitelistConfig.deny"><code class="docutils literal notranslate"><span class="pre">WhitelistConfig.deny</span></code></a></li>
+<li><a class="reference internal" href="#clicky.types.WhitelistConfig.id"><code class="docutils literal notranslate"><span class="pre">WhitelistConfig.id</span></code></a></li>
+<li><a class="reference internal" href="#clicky.types.WhitelistConfig.on"><code class="docutils literal notranslate"><span class="pre">WhitelistConfig.on</span></code></a></li>
+<li><a class="reference internal" href="#clicky.types.WhitelistConfig.type"><code class="docutils literal notranslate"><span class="pre">WhitelistConfig.type</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#clicky.types.BackendConfig"><code class="docutils literal notranslate"><span class="pre">BackendConfig</span></code></a><ul>
+<li><a class="reference internal" href="#clicky.types.BackendConfig.backend"><code class="docutils literal notranslate"><span class="pre">BackendConfig.backend</span></code></a></li>
+<li><a class="reference internal" href="#clicky.types.BackendConfig.prefix"><code class="docutils literal notranslate"><span class="pre">BackendConfig.prefix</span></code></a></li>
+<li><a class="reference internal" href="#clicky.types.BackendConfig.settings"><code class="docutils literal notranslate"><span class="pre">BackendConfig.settings</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=938c9ccc"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    </body>
+</html>
